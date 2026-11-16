@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="A happy Shiba Inu puppy">
+  <defs><clipPath id="shiba-inu-head"><ellipse cx="120" cy="116" rx="80" ry="64"/></clipPath></defs>
+  <!-- Hearts and sparkles -->
+  <path d="M206 51 C190.6 40 197.2 26.799999999999997 206 35.6 C214.8 26.799999999999997 221.4 40 206 51 Z" fill="#ff7fa0"/>
+  <path d="M222 72 C213.6 66 217.2 58.8 222 63.6 C226.8 58.8 230.4 66 222 72 Z" fill="#ffa9bf"/>
+  <path d="M28 36 Q30.8 43.2 38 46 Q30.8 48.8 28 56 Q25.2 48.8 18 46 Q25.2 43.2 28 36 Z" fill="#ffd36e"/>
+  <path d="M46 19 Q47.4 22.6 51 24 Q47.4 25.4 46 29 Q44.6 25.4 41 24 Q44.6 22.6 46 19 Z" fill="#ffe39c"/>
+  <!-- Tail -->
+  <path d="M160 196 Q208 198 203 156 Q199 130 177 140 Q165 152 184 158" fill="none" stroke="#bb6a2d" stroke-width="27" stroke-linecap="round"/>
+  <path d="M160 196 Q208 198 203 156 Q199 130 177 140 Q165 152 184 158" fill="none" stroke="#ec9550" stroke-width="19" stroke-linecap="round"/>
+  <path d="M160 196 Q208 198 203 156 Q199 130 177 140 Q165 152 184 158" fill="none" stroke="#fff4e3" stroke-width="6" stroke-linecap="round" stroke-dasharray="0 34 200"/>
+  <!-- Body -->
+  <ellipse cx="120" cy="196" rx="52" ry="36" fill="#ec9550" stroke="#bb6a2d" stroke-width="4" stroke-linejoin="round"/>
+  <ellipse cx="120" cy="204" rx="28" ry="22" fill="#fff4e3"/>
+  <!-- Paws with toe lines -->
+  <ellipse cx="98" cy="226" rx="15" ry="10" fill="#fff4e3" stroke="#bb6a2d" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M94 222 v5 M102 222 v5" stroke="#bb6a2d" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+  <ellipse cx="142" cy="226" rx="15" ry="10" fill="#fff4e3" stroke="#bb6a2d" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M138 222 v5 M146 222 v5" stroke="#bb6a2d" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+  <!-- Ears -->
+  <path d="M46 98 Q40 46 58 40 Q80 44 104 66 Z" fill="#ec9550" stroke="#bb6a2d" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M194 98 Q200 46 182 40 Q160 44 136 66 Z" fill="#ec9550" stroke="#bb6a2d" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M57 88 Q54 56 63 53 Q78 57 94 68 Z" fill="#fff4e3"/>
+  <path d="M183 88 Q186 56 177 53 Q162 57 146 68 Z" fill="#fff4e3"/>
+  <!-- Big round head -->
+  <ellipse cx="120" cy="116" rx="80" ry="64" fill="#ec9550" stroke="#bb6a2d" stroke-width="4" stroke-linejoin="round"/>
+  <g clip-path="url(#shiba-inu-head)">
+    <ellipse cx="120" cy="164" rx="80" ry="40" fill="#fff4e3"/>
+    <ellipse cx="68" cy="134" rx="32" ry="24" fill="#fff4e3"/>
+    <ellipse cx="172" cy="134" rx="32" ry="24" fill="#fff4e3"/>
+    <ellipse cx="120" cy="140" rx="26" ry="22" fill="#fff4e3"/>
+  </g>
+  <ellipse cx="120" cy="116" rx="80" ry="64" fill="none" stroke="#bb6a2d" stroke-width="4" stroke-linejoin="round"/>
+  <ellipse cx="86" cy="92" rx="9" ry="5.5" fill="#fff4e3" transform="rotate(0 86 92)"/>
+  <ellipse cx="154" cy="92" rx="9" ry="5.5" fill="#fff4e3" transform="rotate(0 154 92)"/>
+  <!-- Happy squinty eyes -->
+  <path d="M74 120 Q86 104 98 120 M142 120 Q154 104 166 120" fill="none" stroke="#3a2620" stroke-width="5.5" stroke-linecap="round"/>
+  <ellipse cx="62" cy="144" rx="13" ry="8" fill="#ff8fa3" opacity="0.55"/>
+  <ellipse cx="178" cy="144" rx="13" ry="8" fill="#ff8fa3" opacity="0.55"/>
+  <ellipse cx="120" cy="135" rx="9" ry="6.5" fill="#2e2224"/>
+  <ellipse cx="117" cy="133" rx="3" ry="1.8" fill="#fff" opacity="0.7"/>
+  <path d="M120 141 V146" stroke="#5a3424" stroke-width="3" stroke-linecap="round"/>
+  <path d="M102 146 Q120 172 138 146 Q120 152 102 146 Z" fill="#7a3b2e" stroke="#5a3424" stroke-width="2.5" stroke-linejoin="round"/>
+  <ellipse cx="120" cy="158" rx="9" ry="6" fill="#ff8a9a"/>
+  <!-- Collar -->
+  <path d="M90 182 Q120 193 150 182" fill="none" stroke="#4a90e2" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="120" cy="192" r="7.5" fill="#ffd25e" stroke="#d9a536" stroke-width="2"/>
+</svg>

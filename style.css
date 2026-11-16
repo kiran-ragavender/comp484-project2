@@ -1,82 +1,537 @@
+/* ==========================
+   Theme colors
+   Each pet has its own accent color. script.js sets <body data-pet="...">
+   to the selected pet, and the rules below swap the color variables.
+   ========================== */
+:root {
+  --text: #3b2f2a;
+  --muted: #7d6a62;
+  --card: #ffffff;
+  --floor: #e9d3b8;
+  --floor-edge: #dcc09f;
 
+  /* Background pattern tile: two paw prints, a heart, and a sparkle (used as a mask in body::before) */
+  --paw-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cg transform='translate(38 44) rotate(-18)'%3E%3Cellipse cx='0' cy='7' rx='11' ry='9'/%3E%3Cellipse cx='-11' cy='-7' rx='4.5' ry='5.5'/%3E%3Cellipse cx='-3.5' cy='-13' rx='4.5' ry='5.5'/%3E%3Cellipse cx='5' cy='-13' rx='4.5' ry='5.5'/%3E%3Cellipse cx='12.5' cy='-6' rx='4.5' ry='5.5'/%3E%3C/g%3E%3Cg transform='translate(112 110) rotate(16)'%3E%3Cellipse cx='0' cy='7' rx='11' ry='9'/%3E%3Cellipse cx='-11' cy='-7' rx='4.5' ry='5.5'/%3E%3Cellipse cx='-3.5' cy='-13' rx='4.5' ry='5.5'/%3E%3Cellipse cx='5' cy='-13' rx='4.5' ry='5.5'/%3E%3Cellipse cx='12.5' cy='-6' rx='4.5' ry='5.5'/%3E%3C/g%3E%3Cpath d='M112 42 C102 34 105 24 112 30 C119 24 122 34 112 42 Z'/%3E%3Cpath d='M36 102 Q38 109 45 111 Q38 113 36 120 Q34 113 27 111 Q34 109 36 102 Z'/%3E%3C/svg%3E");
+
+  /* Koki (orange cat): warm orange */
+  --accent: #e0742a;
+  --accent-dark: #b95a17;
+  --accent-soft: #fff1e3;
+  --page-top: #fff7ee;
+  --page-bottom: #ffe6cf;
+}
+
+/* Kuro (black cat): purple */
+body[data-pet="black-cat"] {
+  --accent: #7c5cd6;
+  --accent-dark: #5d40b3;
+  --accent-soft: #f1ecff;
+  --page-top: #f8f5ff;
+  --page-bottom: #e4dbfb;
+}
+
+/* Coco (Shiba Inu): sky blue */
+body[data-pet="shiba-inu"] {
+  --accent: #2b8ed6;
+  --accent-dark: #1d6ca8;
+  --accent-soft: #e8f4fd;
+  --page-top: #f3f9ff;
+  --page-bottom: #d6eafb;
+}
+
+/* ==========================
+   Base page styles
+   ========================== */
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  /* Light tints of the accent color for borders, divider lines, and meter tracks.
+     They are set here on body (not :root) because body is where data-pet changes --accent,
+     so these tints follow whichever pet is selected. */
+  --line: color-mix(in srgb, var(--accent) 16%, white);
+  --track: color-mix(in srgb, var(--accent) 10%, #f4f0ec);
+
+  margin: 0;
+  padding: 14px 16px 10px;
+  min-height: 100vh;
+  /* Column layout centers the whole game vertically when the window has extra room */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: "Nunito", "Segoe UI", Helvetica, Arial, sans-serif;
+  color: var(--text);
+  /* Background layers (first listed is on top):
+     soft glowing circles of the pet's accent color in the corners, a white glow in the
+     top-right, and a gentle top-to-bottom gradient underneath. color-mix() blends the
+     accent color with transparent so it changes automatically when the pet changes. */
+  background-color: var(--page-bottom);
+  background-image:
+    radial-gradient(circle at 8% 14%, color-mix(in srgb, var(--accent) 22%, transparent) 0, transparent 32%),
+    radial-gradient(circle at 92% 88%, color-mix(in srgb, var(--accent) 20%, transparent) 0, transparent 34%),
+    radial-gradient(circle at 88% 10%, rgba(255, 255, 255, 0.75) 0, transparent 28%),
+    radial-gradient(circle at 10% 92%, rgba(255, 255, 255, 0.6) 0, transparent 26%),
+    linear-gradient(180deg, var(--page-top) 0%, var(--page-bottom) 100%);
+  background-attachment: fixed;
+}
+
+/* Paw-print pattern behind everything.
+   The pattern is a small SVG tile (paw prints, a heart, and a sparkle) used as a mask,
+   so the shapes are painted in the pet's accent color, and it slowly drifts diagonally. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-color: var(--accent);
+  opacity: 0.09;
+  -webkit-mask-image: var(--paw-pattern);
+  mask-image: var(--paw-pattern);
+  -webkit-mask-size: 150px 150px;
+  mask-size: 150px 150px;
+  animation: drift 40s linear infinite;
+}
+
+@keyframes drift {
+  from {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
   }
-  
-  body {
-    font-family: helvetica, arial, sans-serif;
-    margin: 25px;
+  to {
+    -webkit-mask-position: 150px 150px;
+    mask-position: 150px 150px;
   }
-  
-  main {
-    display:block;
-    height:175px;
+}
+
+/* People who turn on "reduce motion" in their system settings get a still background */
+@media (prefers-reduced-motion: reduce) {
+  body::before {
+    animation: none;
   }
-  
-  header {
-    border-bottom: 1px solid black;
-  }
-  
+}
+
+/* Header, tabs, game, and footer each take the full width (then center themselves with max-width) */
+body > * {
+  width: 100%;
+}
+
+h1,
+h2,
+button {
+  font-family: "Fredoka", "Nunito", sans-serif;
+}
+
+header {
+  max-width: 960px;
+  margin: 0 auto 10px;
+  text-align: center;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2.2rem;
+  line-height: 1.15;
+  font-weight: 600;
+  color: var(--accent);
+  transition: color 0.3s ease;
+}
+
+.logo {
+  display: inline-block;
+  transform: rotate(-12deg);
+}
+
+.subtitle {
+  margin: 4px 0 0;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+/* ==========================
+   Pet picker tabs (built by script.js)
+   ========================== */
+.pet-tabs {
+  max-width: 960px;
+  margin: 0 auto 14px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.pet-tabs button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 16px 5px 5px;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--text);
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.15s ease, background-color 0.2s ease;
+}
+
+.pet-tabs button:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+/* Small round picture of each pet inside its tab */
+.pet-tabs .tab-avatar {
+  width: 34px;
+  height: 34px;
+  padding: 2px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+}
+
+/* The pet currently being shown */
+.pet-tabs button.active {
+  color: #fff;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.pet-tabs button.active .tab-avatar {
+  background: #fff;
+}
+
+/* ==========================
+   Layout: pet on the left, dashboard on the right
+   (stacks into one column on small screens)
+   ========================== */
+.game {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.pet-stage,
+.dashboard {
+  background: var(--card);
+  border-radius: 24px;
+  /* thin border and shadow tinted with the pet's color so the cards match the background */
+  border: 2px solid color-mix(in srgb, var(--accent) 14%, white);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+/* ==========================
+   Pet stage: a little room with a wall and a wooden floor
+   ========================== */
+.pet-stage {
+  position: relative;
+  flex: 1 1 320px;
+  max-width: 420px;
+  padding: 14px 16px 50px;
+  text-align: center;
+  overflow: hidden;
+  /* Column layout: the pet is pushed to the bottom so it always stands on the floor,
+     even when the card is stretched taller to match the dashboard */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  /* Two background layers (the first one listed is drawn on top):
+     1. Floor: a fixed 100px band at the bottom with a darker edge line, see-through above it
+     2. Wallpaper: small faint polka dots repeating every 28px over the wall color */
+  background-color: var(--accent-soft);
+  background-image:
+    linear-gradient(0deg, var(--floor) 0, var(--floor) 96px,
+                    var(--floor-edge) 96px, var(--floor-edge) 101px,
+                    transparent 101px),
+    radial-gradient(circle, color-mix(in srgb, var(--accent) 18%, transparent) 3px, transparent 3.5px);
+  background-size: auto, 28px 28px;
+}
+
+/* Reserved space above the pet; grows if a message wraps, so the bubble never covers the pet */
+.bubble-slot {
+  min-height: 70px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.pet-spot {
+  position: relative;
+  line-height: 0;              /* removes the gap under the image so the shadow lines up */
+}
+
+.pet-image {
+  position: relative;          /* needed so jQuery .animate() can move it with "top" */
+  z-index: 1;                  /* keeps the pet in front of its shadow */
+  /* The pet's size follows the window height so the whole game fits without scrolling:
+     36% of the window height, but never smaller than 150px or bigger than 250px */
+  height: clamp(150px, 36vh, 250px);
+  width: auto;
+  max-width: 100%;
+}
+
+/* Soft oval shadow under the pet */
+.pet-shadow {
+  position: absolute;
+  left: 50%;
+  bottom: 2px;
+  width: 170px;
+  height: 22px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: rgba(60, 40, 30, 0.18);
+}
+
+/* Mood badge in the bottom corner of the room */
+.mood-badge {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  padding: 5px 14px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #2f7a4f;
+  background: #e3f6ea;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.mood-badge.sad {
+  color: #b23b3b;
+  background: #fde4e4;
+}
+
+/* ==========================
+   Speech bubble (pet comments)
+   ========================== */
+.speech-bubble {
+  display: none;               /* hidden until showPetMessage() fades it in */
+  position: relative;          /* so the ::after pointer is placed relative to the bubble */
+  width: 92%;
+  padding: 12px 16px;
+  background: var(--card);
+  border: 2px solid var(--accent);
+  border-radius: 18px;
+  font-weight: 700;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(60, 40, 30, 0.08);
+}
+
+/* Little triangle under the bubble so it points at the pet */
+.speech-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 12px 10px 0;
+  border-style: solid;
+  border-color: var(--accent) transparent transparent;
+}
+
+/* Red bubble when the pet is unhappy about something */
+.speech-bubble.warning {
+  background: #fff0f0;
+  border-color: #e05a5a;
+}
+
+.speech-bubble.warning::after {
+  border-top-color: #e05a5a;
+}
+
+/* ==========================
+   Dashboard / stats
+   ========================== */
+.dashboard {
+  flex: 1 1 380px;
+  max-width: 520px;
+  padding: 18px 22px;
+}
+
+.name {
+  margin: 0 0 4px;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  transition: color 0.3s ease;
+}
+
+.stat {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.stat-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  font-size: 1.05rem;
+}
+
+.stat-label {
+  font-weight: 700;
+}
+
+.stat-value {
+  margin-left: auto;           /* pushes the value to the right edge */
+  color: var(--muted);
+}
+
+.stat-value > span:first-child {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.meter {
+  width: 100%;
+  height: 10px;
+  background: var(--track);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.happiness-bar,
+.hunger-bar {
+  height: 100%;
+  width: 0;
+  border-radius: 999px;
+  transition: width 0.4s ease, background-color 0.4s ease;
+}
+
+.happiness-bar {
+  background: #f06a9b;
+}
+
+.hunger-bar {
+  background: #6cbf6c;          /* green = not hungry; script.js turns it orange/red */
+}
+
+/* ==========================
+   Action buttons
+   ========================== */
+.button-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);   /* all four buttons in one row */
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.button-container button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text);
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-bottom-width: 5px;    /* thicker bottom edge makes the button look raised */
+  border-radius: 16px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.1s ease, background-color 0.2s ease;
+}
+
+.btn-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.button-container button:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* Pressed: the button sinks down onto its thick bottom edge */
+.button-container button:active {
+  transform: translateY(3px);
+  border-bottom-width: 2px;
+  margin-bottom: 3px;
+}
+
+/* The new Feed Meal button stands out with the accent color */
+.button-container .feed-button {
+  color: #fff;
+  background: var(--accent);
+  border-color: var(--accent-dark);
+}
+
+.button-container .feed-button:hover {
+  background: var(--accent-dark);
+  border-color: var(--accent-dark);
+}
+
+/* ==========================
+   Hint text, sound toggle, footer
+   ========================== */
+/* Hint and sound button share one row under the action buttons */
+.dashboard-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.sound-toggle {
+  flex-shrink: 0;
+  margin-left: auto;           /* stays on the right even after the hint fades out */
+  padding: 6px 16px;
+  font-size: 0.9rem;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.sound-toggle:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+footer {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* ==========================
+   Small screens (phones): the cards stack, so the page scrolls instead
+   ========================== */
+@media (max-width: 560px) {
   h1 {
-    font-weight: bold;
-    color: #000;
+    font-size: 1.9rem;
   }
-  
-  .bold {
-    font-weight: bold;
-  }
-  
-  p {
-    max-width: 600px;
-  }
-  
-  
-  li {
-    margin-bottom: 5px;
-  }
-  
-  footer {
-    padding-top: 25px;
-    border-top: 1px solid black;
-  }
-  
-  footer a {
-    float:left;
-    margin:5px;
-  }
-  
-  .pet-image {
-    height:250px;
-  }
-  
-  .dashboard div {
-    display:block;
-  }
-  
-  .pet-image-container {
-    float:left;
-    padding:10px;
-  }
-  
+
   .dashboard {
-    float:left;
-    padding:20px;
+    padding: 16px;
   }
-  
+
+  /* Two rows of two buttons are easier to tap on a narrow screen */
   .button-container {
-    margin-top:20px;
+    grid-template-columns: 1fr 1fr;
   }
-  
-  .button-container button {
-    width: 100px;
-      margin-right: 10px;
-      text-align: center;
-      display: inline-block;
-      float: left;
-    font-size:15px;
-    background-color: #1e2835;
-    border-color: #404853;
-    cursor:pointer;
-    background-image: linear-gradient(to bottom,rgba(246,246,246,.1)0%,rgba(30,40,53,0)66%);
-    color: #fafafa;
-  }
+}

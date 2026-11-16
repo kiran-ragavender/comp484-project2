@@ -1,46 +1,90 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Your Giga Pet</title>
-    <meta name="description" content="A cool thing made with Glitch">
-    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="script.js" defer></script>
+    <title>Giga Pets</title>
+    <meta name="description" content="A virtual pet game with two cats and a Shiba Inu, built with JavaScript and jQuery">
+    <!-- Rounded, friendly fonts from Google Fonts: Fredoka for headings, Nunito for text -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;600;700&display=swap">
     <link rel="stylesheet" href="style.css">
+    <!-- defer: script.js runs after the page (and jQuery below) has loaded -->
+    <script src="script.js" defer></script>
   </head>
-  <body>
+  <!-- data-pet is changed by script.js so the page colors match the selected pet -->
+  <body data-pet="orange-cat">
     <header>
-      <h1>
-        This is your Giga Pet
-      </h1>
+      <h1><span class="logo" aria-hidden="true">🐾</span> Giga Pets</h1>
+      <p class="subtitle">Keep Koki, Kuro, and Coco happy, healthy, and well fed. They get hungry over time!</p>
     </header>
 
-    <main>
-      <section class="pet-image-container">
-         <!-- Replace pet image with your own pet image -->
-        <img class="pet-image" src="">
+    <!-- Pet picker: one button per pet, created by script.js from the pets array -->
+    <nav class="pet-tabs" aria-label="Choose a pet"></nav>
+
+    <main class="game">
+      <!-- Left side: the pet's room, speech bubble, and mood -->
+      <section class="pet-stage">
+        <!-- The slot reserves space so the bubble never covers the pet, even on long messages -->
+        <div class="bubble-slot">
+          <!-- Speech bubble: filled in by showPetMessage() in script.js after every button press or pet switch -->
+          <div class="speech-bubble" aria-live="polite"></div>
+        </div>
+
+        <div class="pet-spot">
+          <img class="pet-image" src="images/orange-cat.svg" alt="Koki, an orange tabby cat">
+          <!-- Shadow on the floor; it stays put while the pet hops -->
+          <div class="pet-shadow"></div>
+        </div>
+
+        <!-- Mood badge: updated by script.js (happy or needs care) -->
+        <div class="mood-badge">😊 Happy</div>
       </section>
+
+      <!-- Right side: stats and action buttons -->
       <section class="dashboard">
-        <div>Name: <strong><span class="name"></span></strong></div>
-        <div>Weight: <strong><span class="weight"></span> pounds</strong></div>
-        <div>Happiness: <strong><span class="happiness"></span> tail wags (per min)</strong></div>
+        <h2 class="name"></h2>
+
+        <div class="stat">
+          <span class="stat-icon" aria-hidden="true">⚖️</span>
+          <span class="stat-label">Weight</span>
+          <span class="stat-value"><span class="weight"></span> pounds</span>
+        </div>
+
+        <div class="stat">
+          <span class="stat-icon" aria-hidden="true">💖</span>
+          <span class="stat-label">Happiness</span>
+          <span class="stat-value"><span class="happiness"></span> <span class="happiness-unit">purrs per minute</span></span>
+          <div class="meter"><div class="happiness-bar"></div></div>
+        </div>
+
+        <!-- New behavior for the new Feed Meal button: hunger meter (0 = full, 100 = starving) -->
+        <div class="stat">
+          <span class="stat-icon" aria-hidden="true">🍖</span>
+          <span class="stat-label">Hunger</span>
+          <span class="stat-value"><span class="hunger"></span> / 100</span>
+          <div class="meter"><div class="hunger-bar"></div></div>
+        </div>
+
         <div class="button-container">
-          <button class="treat-button">
-            Treat
-          </button>
-          <button class="play-button">
-            Play
-          </button>
-          <button class="exercise-button">
-            Exercise
-          </button>
+          <button class="treat-button"><span class="btn-icon">🦴</span>Treat</button>
+          <button class="play-button"><span class="btn-icon">🎾</span>Play</button>
+          <button class="exercise-button"><span class="btn-icon">🏃</span>Exercise</button>
+          <!-- New action button -->
+          <button class="feed-button"><span class="btn-icon">🍽️</span>Feed Meal</button>
+        </div>
+
+        <div class="dashboard-footer">
+          <!-- Hint shown until the first button press (removed by the .one() handler in script.js) -->
+          <p class="hint">Tip: press any button to start. The cats meow and Coco barks!</p>
+          <button class="sound-toggle" aria-pressed="false">🔊 Sound on</button>
         </div>
       </section>
     </main>
 
-    <!-- Your web-app is https, so your scripts need to be too -->
+    <footer>Made with JavaScript &amp; jQuery</footer>
+
     <script src="https://code.jquery.com/jquery-2.2.1.min.js"
             integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
             crossorigin="anonymous"></script>
