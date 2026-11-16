@@ -535,19 +535,147 @@ footer {
 }
 
 /* ==========================
-   Small screens (phones): the cards stack, so the page scrolls instead
+   Phones: the two cards stack on top of each other, so everything is made
+   more compact to fit on one screen without scrolling.
+   (100dvh = the height of the screen that is actually visible on a phone,
+   not counting the browser's address bar)
    ========================== */
 @media (max-width: 560px) {
+  body {
+    padding: 8px 12px;
+    min-height: 100dvh;
+  }
+
+  header {
+    margin-bottom: 6px;
+  }
+
   h1 {
-    font-size: 1.9rem;
+    font-size: 1.5rem;
+  }
+
+  /* Not needed on a small screen */
+  .subtitle,
+  .hint,
+  footer {
+    display: none;
+  }
+
+  .pet-tabs {
+    margin-bottom: 8px;
+    gap: 6px;
+  }
+
+  .pet-tabs button {
+    padding: 3px 12px 3px 3px;
+    font-size: 0.95rem;
+  }
+
+  .pet-tabs .tab-avatar {
+    width: 28px;
+    height: 28px;
+  }
+
+  .game {
+    gap: 10px;
+  }
+
+  /* Smaller room with a shorter floor (70px instead of 100px) */
+  .pet-stage {
+    padding: 8px 12px 40px;
+    border-radius: 20px;
+    background-image:
+      linear-gradient(0deg, var(--floor) 0, var(--floor) 66px,
+                      var(--floor-edge) 66px, var(--floor-edge) 70px,
+                      transparent 70px),
+      radial-gradient(circle, color-mix(in srgb, var(--accent) 18%, transparent) 3px, transparent 3.5px);
+  }
+
+  .bubble-slot {
+    min-height: 50px;
+    margin-bottom: 4px;
+  }
+
+  .speech-bubble {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+
+  /* The pet gets whatever height is left after everything else (about 480px),
+     but never smaller than 100px or bigger than 220px */
+  .pet-image {
+    height: clamp(100px, calc(100dvh - 480px), 220px);
+  }
+
+  .pet-shadow {
+    width: 120px;
+    height: 16px;
+  }
+
+  .mood-badge {
+    bottom: 8px;
+    padding: 3px 12px;
+    font-size: 0.8rem;
   }
 
   .dashboard {
-    padding: 16px;
+    position: relative;        /* so the sound button can sit in its top-right corner */
+    padding: 12px 14px;
+    border-radius: 20px;
   }
 
-  /* Two rows of two buttons are easier to tap on a narrow screen */
+  .name {
+    margin: 0;
+    font-size: 1.4rem;
+  }
+
+  .stat {
+    padding: 5px 0;
+    gap: 4px 8px;
+  }
+
+  .stat-icon {
+    width: 26px;
+    height: 26px;
+    font-size: 0.85rem;
+  }
+
+  .stat-label,
+  .stat-value {
+    font-size: 0.9rem;
+  }
+
+  .meter {
+    height: 8px;
+  }
+
+  /* All four buttons stay in one row, just smaller */
   .button-container {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  .button-container button {
+    padding: 7px 2px;
+    font-size: 0.8rem;
+    border-radius: 12px;
+  }
+
+  .btn-icon {
+    font-size: 1.3rem;
+  }
+
+  /* Sound button moves up next to the pet's name */
+  .dashboard-footer {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    margin: 0;
+  }
+
+  .sound-toggle {
+    padding: 4px 10px;
+    font-size: 0.8rem;
   }
 }
