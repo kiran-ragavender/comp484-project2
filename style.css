@@ -117,6 +117,22 @@ body > * {
   width: 100%;
 }
 
+/* Make the page feel like a game instead of a document:
+   - user-select: none stops text from being highlighted when you click or double-click quickly
+   - cursor: default shows the normal arrow instead of the text "I-beam" cursor over text
+   - caret-color: transparent hides the blinking typing cursor if caret browsing (F7) is on */
+body {
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: default;
+  caret-color: transparent;
+}
+
+/* Stop the pet pictures from being dragged around like a file */
+img {
+  -webkit-user-drag: none;
+}
+
 h1,
 h2,
 button {
